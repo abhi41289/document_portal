@@ -1,0 +1,57 @@
+name: Sync with Upstream
+
+on:
+  schedule:
+    # Run every day at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/sunnysavita10/document_portal.git || true
+          git remote -v
+
+      - name: Fetch upstream changes
+        run: git fetch upstream
+
+      - name: Check if update needed
+        id: check
+        run: |
+          git fetch origin main
+          BEHIND=$(git rev-list --count HEAD..upstream/main)
+          echo "behind=$BEHIND" >> $GITHUB_OUTPUT
+          echo "Repository is $BEHIND commits behind upstream"
+
+      - name: Merge upstream changes
+        if: steps.check.outputs.behind > 0
+        run: |
+          git checkout main
+          git merge upstream/main --no-edit
+
+      - name: Push changes
+        if: steps.check.outputs.behind > 0
+        run: git push origin main
+
+      - name: Create sync summary
+        if: steps.check.outputs.behind > 0
+        run: |
+          echo "✅ Successfully synced ${{ steps.check.outputs.behind }} commits from upstream" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Recent upstream commits:" >> $GITHUB_STEP_SUMMARY
+          git log --oneline -5 >> $GITHUB_STEP_SUMMARY

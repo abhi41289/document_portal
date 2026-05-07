@@ -1,0 +1,211 @@
+# ai_quality_gate.yml
+# GitHub Actions workflow: AI Quality Gate for DocumentPortal RAG system.
+#
+# JD Requirements covered:
+#   - CI/CD integration for continuous AI testing
+#   - Quality gates that fail a CI/CD build on every PR
+#   - Publishes benchmark report as PR comment
+#   - Fails build if faithfulness < 0.80 or hallucination_rate > 0.05
+#
+# Triggers:
+#   - Every pull_request to main or develop
+#   - Manual workflow_dispatch (for debugging)
+#   - Daily at 02:00 UTC (scheduled baseline refresh)
+#
+# Artifacts produced:
+#   - evaluation/reports/benchmark_<run_id>.json (uploaded to GH Artifacts)
+#   - monitoring/dashboard/rag_monitor_<run_id>.html (uploaded to GH Artifacts)
+#   - PR comment with quality gate summary
+
+name: AI Quality Gate
+
+on:
+  pull_request:
+    branches: [main, develop]
+    paths:
+      # Only trigger when AI-relevant files change
+      - "src/**"
+      - "prompt/**"
+      - "evaluation/**"
+      - "monitoring/**"
+      - "bias_detection/**"
+      - "requirements.txt"
+  workflow_dispatch:
+    inputs:
+      update_baseline:
+        description: "Update drift baseline after this run"
+        required: false
+        default: "false"
+        type: boolean
+  schedule:
+    # Daily scheduled evaluation at 02:00 UTC
+    - cron: "0 2 * * *"
+
+permissions:
+  contents: read
+  pull-requests: write   # Required to post PR comments
+
+env:
+  PYTHONPATH: ${{ github.workspace }}
+  PYTHONDONTWRITEBYTECODE: 1
+  PYTHONUNBUFFERED: 1
+
+jobs:
+  # -------------------------------------------------------------------------
+  # Job 1: Core RAG Evaluation & Quality Gate
+  # -------------------------------------------------------------------------
+  ai-quality-gate:
+    name: "RAG Evaluation + Quality Gate"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install base dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install QA dependencies
+        run: |
+          pip install -r ci_cd_extension/requirements_qa.txt
+
+      - name: Install project (editable)
+        run: pip install -e . --no-deps
+
+      # ── Run the evaluation ─────────────────────────────────────────────
+
+      - name: Run RAGAS evaluation
+        id: ragas
+        run: |
+          python ci_cd_extension/run_quality_gate.py \
+            --save-report \
+            --github-comment \
+            --exit-on-fail
+        # Note: --exit-on-fail triggers sys.exit(1) if gates fail,
+        # which causes this step (and the job) to fail.
+
+      # ── Save and publish reports ───────────────────────────────────────
+
+      - name: Upload benchmark report
+        if: always()   # upload even on failure for debugging
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-report-${{ github.run_id }}
+          path: evaluation/reports/
+          retention-days: 30
+
+      - name: Upload HTML dashboard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitoring-dashboard-${{ github.run_id }}
+          path: monitoring/dashboard/
+          retention-days: 30
+
+      # ── Post PR comment ────────────────────────────────────────────────
+
+      - name: Post quality gate summary on PR
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: ai-quality-gate
+          path: ci_cd_extension/pr_comment.md
+
+  # -------------------------------------------------------------------------
+  # Job 2: Bias Detection (parallel, informational — does not block merge)
+  # -------------------------------------------------------------------------
+  bias-detection:
+    name: "Bias & Fairness Check"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Runs in parallel with quality gate; change needs-gate to fail PRs on bias
+    if: github.event_name != 'schedule'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - run: pip install -r requirements.txt && pip install numpy pytest pytest-cov
+      - run: pip install -e . --no-deps
+
+      - name: Run bias detection tests
+        run: |
+          python -m pytest tests/test_bias_detection.py \
+            -v --tb=short \
+            --json-report --json-report-file=bias_report.json \
+            || true    # informational — remove '|| true' to gate on bias
+
+      - name: Upload bias report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bias-report-${{ github.run_id }}
+          path: bias_report.json
+          retention-days: 14
+
+  # -------------------------------------------------------------------------
+  # Job 3: Drift Monitoring (scheduled runs only)
+  # -------------------------------------------------------------------------
+  drift-monitor:
+    name: "Drift Monitor (Scheduled)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'schedule' || github.event.inputs.update_baseline == 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - run: pip install -r requirements.txt && pip install numpy
+      - run: pip install -e . --no-deps
+
+      - name: Run drift monitoring and update baseline
+        run: |
+          python -c "
+          import sys, os
+          sys.path.insert(0, '.')
+          from evaluation.mock_rag_system import MockRAGSystem
+          from evaluation.ragas_evaluator import RAGASEvaluator
+          from evaluation.test_cases import HR_TEST_CASES
+          from monitoring.evidently_monitor import EvidentlyMonitor
+          from monitoring.hallucination_tracker import HallucinationTracker
+          from evaluation.benchmark_reporter import BenchmarkReporter
+
+          rag = MockRAGSystem()
+          evaluator = RAGASEvaluator(rag_system=rag, verbose=False)
+          report = evaluator.evaluate(HR_TEST_CASES)
+
+          # Record hallucination trend
+          tracker = HallucinationTracker()
+          snap = tracker.record(report.results)
+          tracker.print_status(snap)
+
+          # Update baseline
+          reporter = BenchmarkReporter()
+          reporter.save_baseline(report)
+          print('Drift baseline updated.')
+          "
+
+      - name: Upload updated baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: baseline-${{ github.run_id }}
+          path: evaluation/reports/baseline.json
+          retention-days: 90

@@ -1,0 +1,66 @@
+# requirements_qa.txt
+# Additional dependencies for the AI QA POC layers.
+#
+# JD Requirements covered:
+#   - Python automation frameworks
+#   - CI/CD integration for continuous AI testing
+#   - Model drift detection (Evidently AI, DeepChecks)
+#   - RAGAS or similar evaluation metrics
+#
+# Install with: pip install -r ci_cd_extension/requirements_qa.txt
+# These are ADDITIVE to the base requirements.txt
+
+# ---------------------------------------------------------------------------
+# Core AI Evaluation
+# ---------------------------------------------------------------------------
+
+# RAGAS - RAG evaluation framework (optional - framework has built-in fallback)
+# ragas>=0.1.0
+
+# DeepChecks - ML model validation (optional)
+# deepchecks>=0.18.0
+
+# ---------------------------------------------------------------------------
+# Drift Detection (optional - built-in numpy fallback is used when absent)
+# ---------------------------------------------------------------------------
+
+# Evidently AI - data drift monitoring
+# evidently>=0.4.0
+
+# ---------------------------------------------------------------------------
+# Data Processing (required for numeric metrics)
+# ---------------------------------------------------------------------------
+
+numpy>=1.24.0
+
+# ---------------------------------------------------------------------------
+# Report Generation
+# ---------------------------------------------------------------------------
+
+# pandas is used by Evidently when available
+# pandas>=2.0.0
+
+# ---------------------------------------------------------------------------
+# Testing Framework (already in requirements.txt but explicit here for CI)
+# ---------------------------------------------------------------------------
+
+pytest>=8.0.0
+pytest-cov>=4.1.0          # Coverage reports published in CI
+pytest-json-report>=1.5.0  # JSON reports for GitHub Actions artefacts
+
+# ---------------------------------------------------------------------------
+# CI utilities
+# ---------------------------------------------------------------------------
+
+# GitHub PR comment posting (used by ai_quality_gate.yml workflow)
+# gh CLI handles this natively — no Python package needed
+
+# ---------------------------------------------------------------------------
+# Optional: LLM clients for live evaluation
+# ---------------------------------------------------------------------------
+
+# Uncomment when running against live DocumentPortal API:
+# langchain>=0.3.0
+# langchain-groq>=0.3.0
+# langchain-google-genai>=2.0.0
+# faiss-cpu>=1.7.0

@@ -1,0 +1,62 @@
+[
+  {
+    "run_id": "historical_run_0001",
+    "timestamp": "2026-05-07T07:03:36.488160Z",
+    "total_responses": 26,
+    "hallucinated_count": 0,
+    "hallucination_rate": 0.0,
+    "categories": {
+      "factual": 0.0,
+      "reasoning": 0.0,
+      "edge_case": 0.0,
+      "out_of_scope": 0.0
+    },
+    "trend_delta": 0.0,
+    "alert": false
+  },
+  {
+    "run_id": "historical_run_0002",
+    "timestamp": "2026-05-07T07:03:36.488359Z",
+    "total_responses": 26,
+    "hallucinated_count": 0,
+    "hallucination_rate": 0.0,
+    "categories": {
+      "factual": 0.0,
+      "reasoning": 0.0,
+      "edge_case": 0.0,
+      "out_of_scope": 0.0
+    },
+    "trend_delta": 0.0,
+    "alert": false
+  },
+  {
+    "run_id": "historical_run_0003",
+    "timestamp": "2026-05-07T07:03:36.488537Z",
+    "total_responses": 26,
+    "hallucinated_count": 1,
+    "hallucination_rate": 0.0385,
+    "categories": {
+      "factual": 0.1,
+      "reasoning": 0.0,
+      "edge_case": 0.0,
+      "out_of_scope": 0.0
+    },
+    "trend_delta": 0.0385,
+    "alert": false
+  },
+  {
+    "run_id": "current_run",
+    "timestamp": "2026-05-07T07:03:36.488695Z",
+    "total_responses": 26,
+    "hallucinated_count": 3,
+    "hallucination_rate": 0.1154,
+    "categories": {
+      "factual": 0.1,
+      "reasoning": 0.0,
+      "edge_case": 0.3333,
+      "out_of_scope": 0.0
+    },
+    "trend_delta": 0.0769,
+    "alert": true
+  }
+]

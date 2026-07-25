@@ -44,6 +44,7 @@ def pytest_configure(config):
         "regression: benchmark and prompt regression tests",
         "e2e: full pipeline tests",
         "performance: latency and token budget checks",
+        "benchmark: long-running or comparative performance checks",
         "retrieval: retrieval-quality benchmarks",
         "sql: SQL validation and execution tests",
         "safety: guardrail and injection tests",

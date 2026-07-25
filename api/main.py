@@ -15,6 +15,7 @@ from src.document_ingestion.data_ingestion import (
 from src.document_analyzer.data_analysis import DocumentAnalyzer
 from src.document_compare.document_comparator import DocumentComparatorLLM
 from src.document_chat.retrieval import ConversationalRAG
+from exception.custom_exception import DocumentPortalException
 from utils.document_ops import FastAPIFileAdapter,read_pdf_via_handler
 from logger import GLOBAL_LOGGER as log
 
@@ -140,15 +141,25 @@ async def chat_query(
 
         rag = ConversationalRAG(session_id=session_id)
         rag.load_retriever_from_faiss(index_dir, k=k, index_name=FAISS_INDEX_NAME)  # build retriever + chain
-        response = rag.invoke(question, chat_history=[])
+        response, trace = rag.invoke_with_trace(question, chat_history=[])
         log.info("Chat query handled successfully.")
 
         return {
             "answer": response,
+            "trace": trace,
             "session_id": session_id,
             "k": k,
             "engine": "LCEL-RAG"
         }
+    except DocumentPortalException as e:
+        log.exception("Chat query failed with traceable exception")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "message": str(e),
+                "trace": getattr(e, "trace", None),
+            },
+        )
     except HTTPException:
         raise
     except Exception as e:

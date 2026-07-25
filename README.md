@@ -66,4 +66,10 @@ git clone https://github.com/sunnysavita10/document_portal.git
 - [Get your API Key](https://aistudio.google.com/apikey)  
 - [Gemini Documentation](https://ai.google.dev/gemini-api/docs/models)
 
+## QA and Observability
+
+- Run the AI QA benchmark suite with `pytest tests/qa -m "not quality_gate"`.
+- Run the release gate with `pytest tests/qa/test_quality_gate.py --quality-gate --qa-artifacts=qa-artifacts`.
+- The chat API now returns a `trace` payload on `/chat/query` responses with rewrite, retrieval, and generation stage details.
+- Failure responses include structured trace details for root-cause analysis.
 

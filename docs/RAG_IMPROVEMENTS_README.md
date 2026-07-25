@@ -4,6 +4,8 @@
 
 This document summarizes the comprehensive RAG (Retrieval Augmented Generation) improvements implemented for the document_portal project. These improvements address critical production concerns including hallucination prevention, retrieval quality, monitoring, and testing.
 
+The current runtime contract also includes structured observability on `/chat/query`: successful responses now return an `answer` plus a `trace` payload, and failures surface a trace under the error detail for debugging and QA review.
+
 ## 📁 Files Added/Modified
 
 ### New Files Created
@@ -121,6 +123,16 @@ This document summarizes the comprehensive RAG (Retrieval Augmented Generation) 
 - Works with `ModelLoader` from utils/model_loader.py
 - Compatible with existing Flask app structure
 - No breaking changes to current implementation
+
+### 5. Runtime Tracing
+
+**Problem**: Request-level debugging was opaque, making regressions hard to root-cause.
+
+**Solution**:
+- Emit a structured trace envelope for chat requests
+- Capture rewrite, retrieval, and generation stages separately
+- Return the trace with chat responses and on structured failures
+- Preserve the original answer payload so existing consumers can adapt incrementally
 
 **Files**:
 - [src/document_chat/retrieval_layer.py:56-89](../src/document_chat/retrieval_layer.py#L56-L89)

@@ -5,6 +5,8 @@ Includes anti-hallucination guardrails and better constraints
 
 from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 
+from model.models import PromptType
+
 
 # ============================================================================
 # METADATA EXTRACTION PROMPT (for data_analyzer)
@@ -215,6 +217,46 @@ def create_metadata_extraction_prompt(document_text: str, format_instructions: s
 
 
 # ============================================================================
+# CHAT PROMPTS (for conversational RAG)
+# ============================================================================
+
+contextualize_question_prompt = ChatPromptTemplate.from_template("""
+You are a query rewriter for a retrieval-augmented assistant.
+Rewrite the user's latest question into a standalone search query using the chat history if needed.
+
+Chat history:
+{chat_history}
+
+User question:
+{input}
+
+Standalone question:
+""")
+
+
+context_qa_prompt = ChatPromptTemplate.from_template("""
+You are a helpful assistant answering questions based ONLY on the provided context.
+
+Rules:
+1. Use only the context below.
+2. If the answer is not in the context, say: "Not available in provided documents."
+3. If the context contains conflicting information, mention the conflict.
+4. Keep the answer concise and factual.
+
+Context:
+{context}
+
+Chat history:
+{chat_history}
+
+Question:
+{input}
+
+Answer:
+""")
+
+
+# ============================================================================
 # CONFIGURATION: Prompt Versions (for A/B testing)
 # ============================================================================
 
@@ -234,6 +276,14 @@ PROMPT_VERSIONS = {
         "template": metadata_extraction_prompt,
         "guardrails": True,
     },
+}
+
+
+PROMPT_REGISTRY = {
+    PromptType.DOCUMENT_ANALYSIS.value: metadata_extraction_prompt,
+    PromptType.DOCUMENT_COMPARISON.value: document_comparison_prompt,
+    PromptType.CONTEXTUALIZE_QUESTION.value: contextualize_question_prompt,
+    PromptType.CONTEXT_QA.value: context_qa_prompt,
 }
 
 

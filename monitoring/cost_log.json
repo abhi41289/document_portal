@@ -1,0 +1,38 @@
+[
+  {
+    "run_id": "demo_run",
+    "timestamp": "2026-05-07T06:55:51.940365Z",
+    "model": "groq/llama3-8b",
+    "n_queries": 5,
+    "total_input_tokens": 70,
+    "total_output_tokens": 75,
+    "estimated_cost_usd": 1.5e-05,
+    "avg_tokens_per_query": 29.0,
+    "cost_delta_pct": 0.0,
+    "alert": false
+  },
+  {
+    "run_id": "demo_run",
+    "timestamp": "2026-05-07T07:03:32.167829Z",
+    "model": "groq/llama3-8b",
+    "n_queries": 26,
+    "total_input_tokens": 416,
+    "total_output_tokens": 660,
+    "estimated_cost_usd": 0.000108,
+    "avg_tokens_per_query": 41.4,
+    "cost_delta_pct": 617.33,
+    "alert": true
+  },
+  {
+    "run_id": "demo_run",
+    "timestamp": "2026-05-07T07:03:36.488960Z",
+    "model": "groq/llama3-8b",
+    "n_queries": 26,
+    "total_input_tokens": 416,
+    "total_output_tokens": 660,
+    "estimated_cost_usd": 0.000108,
+    "avg_tokens_per_query": 41.4,
+    "cost_delta_pct": -0.37,
+    "alert": false
+  }
+]

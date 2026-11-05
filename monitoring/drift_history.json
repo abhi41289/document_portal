@@ -1,0 +1,254 @@
+[
+  {
+    "timestamp": "2026-05-07T06:55:51.939120Z",
+    "embedding_psi": 24.4106,
+    "response_quality_drift": 19.0128,
+    "vocab_overlap": 0.0991,
+    "avg_response_length_delta": -17.01,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 5,
+      "n_reference": 14,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T06:56:51.232442Z",
+    "embedding_psi": 7.1591,
+    "response_quality_drift": 9.1934,
+    "vocab_overlap": 0.4942,
+    "avg_response_length_delta": -0.4,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 5,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T06:56:51.234189Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 0.0,
+    "vocab_overlap": 1.0,
+    "avg_response_length_delta": 0.0,
+    "drift_detected": false,
+    "alert_level": "none",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T06:56:51.235964Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 19.0275,
+    "vocab_overlap": 0.0,
+    "avg_response_length_delta": 72.6,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:02:27.241940Z",
+    "embedding_psi": 7.1591,
+    "response_quality_drift": 9.1934,
+    "vocab_overlap": 0.4942,
+    "avg_response_length_delta": -0.4,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 5,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:02:27.243804Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 0.0,
+    "vocab_overlap": 1.0,
+    "avg_response_length_delta": 0.0,
+    "drift_detected": false,
+    "alert_level": "none",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:02:27.245688Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 19.0275,
+    "vocab_overlap": 0.0,
+    "avg_response_length_delta": 72.6,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:03:11.204051Z",
+    "embedding_psi": 7.1591,
+    "response_quality_drift": 9.1934,
+    "vocab_overlap": 0.4942,
+    "avg_response_length_delta": -0.4,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 5,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:03:11.206678Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 0.0,
+    "vocab_overlap": 1.0,
+    "avg_response_length_delta": 0.0,
+    "drift_detected": false,
+    "alert_level": "none",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:03:11.208722Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 19.0275,
+    "vocab_overlap": 0.0,
+    "avg_response_length_delta": 72.6,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:03:32.158493Z",
+    "embedding_psi": 11.9192,
+    "response_quality_drift": 6.8948,
+    "vocab_overlap": 0.5517,
+    "avg_response_length_delta": -11.45,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 26,
+      "n_reference": 14,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:03:36.486001Z",
+    "embedding_psi": 11.9192,
+    "response_quality_drift": 6.8948,
+    "vocab_overlap": 0.5517,
+    "avg_response_length_delta": -11.45,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 26,
+      "n_reference": 14,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:07:08.669119Z",
+    "embedding_psi": 7.1591,
+    "response_quality_drift": 9.1934,
+    "vocab_overlap": 0.4942,
+    "avg_response_length_delta": -0.4,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 5,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:07:08.671845Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 0.0,
+    "vocab_overlap": 1.0,
+    "avg_response_length_delta": 0.0,
+    "drift_detected": false,
+    "alert_level": "none",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:07:08.674535Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 19.0275,
+    "vocab_overlap": 0.0,
+    "avg_response_length_delta": 72.6,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:09:31.935773Z",
+    "embedding_psi": 7.1591,
+    "response_quality_drift": 9.1934,
+    "vocab_overlap": 0.4942,
+    "avg_response_length_delta": -0.4,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 5,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:09:31.938009Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 0.0,
+    "vocab_overlap": 1.0,
+    "avg_response_length_delta": 0.0,
+    "drift_detected": false,
+    "alert_level": "none",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  },
+  {
+    "timestamp": "2026-05-07T07:09:31.940175Z",
+    "embedding_psi": 0.0,
+    "response_quality_drift": 19.0275,
+    "vocab_overlap": 0.0,
+    "avg_response_length_delta": 72.6,
+    "drift_detected": true,
+    "alert_level": "critical",
+    "details": {
+      "n_current": 10,
+      "n_reference": 10,
+      "evidently_available": false
+    }
+  }
+]

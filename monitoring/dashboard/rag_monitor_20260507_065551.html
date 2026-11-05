@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Monitor Dashboard — 2026-05-07 06:55 UTC</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: #f4f6f9; color: #2c3e50; font-size: 14px; }
+  .header { background: #2c3e50; color: white; padding: 20px 30px;
+             display: flex; justify-content: space-between; align-items: center; }
+  .header h1 { font-size: 22px; }
+  .header .subtitle { font-size: 12px; opacity: 0.7; }
+  .gate-badge { background: #e74c3c; color: white; padding: 8px 18px;
+                 border-radius: 20px; font-weight: bold; font-size: 15px; }
+  .container { max-width: 1200px; margin: 24px auto; padding: 0 20px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+              gap: 16px; margin-bottom: 24px; }
+  .kpi-card { background: white; border-radius: 8px; padding: 16px 20px;
+               box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+  .kpi-card .value { font-size: 28px; font-weight: 700; }
+  .kpi-card .label { font-size: 12px; color: #7f8c8d; margin-top: 4px; }
+  .kpi-card.good { border-left: 4px solid #27ae60; }
+  .kpi-card.warn { border-left: 4px solid #f39c12; }
+  .kpi-card.bad  { border-left: 4px solid #e74c3c; }
+  .section { background: white; border-radius: 8px; padding: 20px 24px;
+              box-shadow: 0 2px 6px rgba(0,0,0,.08); margin-bottom: 20px; }
+  .section h2 { font-size: 16px; margin-bottom: 14px; border-bottom: 1px solid #ecf0f1;
+                 padding-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f8f9fa; text-align: left; padding: 8px 12px;
+        border-bottom: 2px solid #dee2e6; }
+  td { padding: 7px 12px; border-bottom: 1px solid #f0f0f0; }
+  tr:hover td { background: #f8f9fa; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px;
+            font-size: 11px; font-weight: 600; }
+  .pass { background: #d5f5e3; color: #196f3d; }
+  .fail { background: #fadbd8; color: #922b21; }
+  .warn-b { background: #fdebd0; color: #935116; }
+  .bar-bg { background: #ecf0f1; border-radius: 4px; height: 8px; }
+  .bar-fill { height: 8px; border-radius: 4px; background: #3498db; }
+  .footer { text-align: center; padding: 20px; color: #95a5a6; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>🔍 RAG Quality Monitor Dashboard</h1>
+    <div class="subtitle">DocumentPortal · AI QA POC · 2026-05-07 06:55:51 UTC</div>
+  </div>
+  <div class="gate-badge">Quality Gate: FAILED ❌</div>
+</div>
+
+<div class="container">
+
+  <div class="kpi-row">
+    
+    <div class="kpi-card bad">
+      <div class="value">60.0%</div>
+      <div class="label">Test Pass Rate</div>
+    </div>
+    <div class="kpi-card good">
+      <div class="value">1.000</div>
+      <div class="label">Avg Faithfulness</div>
+    </div>
+    <div class="kpi-card warn">
+      <div class="value">0.600</div>
+      <div class="label">Avg Factuality</div>
+    </div>
+    <div class="kpi-card good">
+      <div class="value">0.000</div>
+      <div class="label">Hallucination Rate</div>
+    </div>
+    <div class="kpi-card good">
+      <div class="value">1.000</div>
+      <div class="label">OOS Refusal Rate</div>
+    </div>
+    <div class="kpi-card good">
+      <div class="value">0 ms</div>
+      <div class="label">Avg Latency</div>
+    </div>
+    <div class="kpi-card bad">
+      <div class="value">24.411</div>
+      <div class="label">Embedding PSI</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📊 Evaluation Metrics Summary</h2>
+    <table>
+<tr>
+  <th>Metric</th><th>Value</th><th>Threshold</th><th>Bar</th><th>Status</th>
+</tr>
+<tr>
+  <td><code>avg_faithfulness</code></td>
+  <td><strong>1.0000</strong></td>
+  <td>≥ 0.8</td>
+  <td>
+    <div class="bar-bg">
+      <div class="bar-fill" style="width:100%;background:#27ae60;"></div>
+    </div>
+  </td>
+  <td><span class="badge pass">✅ Pass</span></td>
+</tr>
+<tr>
+  <td><code>avg_answer_relevance</code></td>
+  <td><strong>0.6883</strong></td>
+  <td>≥ 0.7</td>
+  <td>
+    <div class="bar-bg">
+      <div class="bar-fill" style="width:68%;background:#e74c3c;"></div>
+    </div>
+  </td>
+  <td><span class="badge fail">❌ Fail</span></td>
+</tr>
+<tr>
+  <td><code>avg_context_relevance</code></td>
+  <td><strong>0.6843</strong></td>
+  <td>≥ 0.7</td>
+  <td>
+    <div class="bar-bg">
+      <div class="bar-fill" style="width:68%;background:#e74c3c;"></div>
+    </div>
+  </td>
+  <td><span class="badge fail">❌ Fail</span></td>
+</tr>
+<tr>
+  <td><code>avg_factuality</code></td>
+  <td><strong>0.6000</strong></td>
+  <td>≥ 0.8</td>
+  <td>
+    <div class="bar-bg">
+      <div class="bar-fill" style="width:60%;background:#e74c3c;"></div>
+    </div>
+  </td>
+  <td><span class="badge fail">❌ Fail</span></td>
+</tr>
+<tr>
+  <td><code>hallucination_rate</code></td>
+  <td><strong>0.0000</strong></td>
+  <td>≤ 0.05</td>
+  <td>
+    <div class="bar-bg">
+      <div class="bar-fill" style="width:0%;background:#27ae60;"></div>
+    </div>
+  </td>
+  <td><span class="badge pass">✅ Pass</span></td>
+</tr>
+<tr>
+  <td><code>out_of_scope_refusal_rate</code></td>
+  <td><strong>1.0000</strong></td>
+  <td>≥ 0.8</td>
+  <td>
+    <div class="bar-bg">
+      <div class="bar-fill" style="width:100%;background:#27ae60;"></div>
+    </div>
+  </td>
+  <td><span class="badge pass">✅ Pass</span></td>
+</tr></table>
+  </div>
+
+  
+  <div class="section">
+    <h2>📡 Drift Monitor</h2>
+    <table>
+      <tr><th>Metric</th><th>Value</th><th>Status</th></tr>
+      <tr><td>Embedding PSI</td><td>24.4106</td>
+          <td style="color:#e74c3c;">CRITICAL</td></tr>
+      <tr><td>Quality Score KL Divergence</td><td>19.0128</td>
+          <td></td></tr>
+      <tr><td>Vocabulary Overlap</td><td>0.0991</td><td></td></tr>
+      <tr><td>Avg Response Length Δ</td><td>-17.0 tokens</td>
+          <td></td></tr>
+    </table>
+  </div>
+  
+  <div class="section">
+    <h2>🧪 Hallucination Tracker — current_run</h2>
+    <p>Rate: <strong>0.0000</strong> (0/5) |
+       Trend Δ: +0.0000</p>
+    <br>
+    <table>
+      <tr><th>Category</th><th>Rate</th><th>Status</th></tr>
+      <tr><td>factual</td><td>0.0000</td><td>✅</td></tr>
+    </table>
+  </div>
+  
+  <div class="section">
+    <h2>💰 Cost Tracker — demo_run</h2>
+    <table>
+      <tr><td>Model</td><td><code>groq/llama3-8b</code></td></tr>
+      <tr><td>Queries</td><td>5</td></tr>
+      <tr><td>Input Tokens</td><td>70</td></tr>
+      <tr><td>Output Tokens</td><td>75</td></tr>
+      <tr><td>Estimated Cost</td><td><strong>$0.000015</strong></td></tr>
+      <tr><td>Cost Δ vs prev run</td>
+          <td style="color:#27ae60">
+            +0.0%</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>❌ Failed Test Cases (2)</h2>
+    <table>
+<tr>
+  <th>ID</th><th>Category</th><th>Question</th>
+  <th>Faithfulness</th><th>Factuality</th><th>Hallucination</th>
+</tr>
+<tr>
+  <td><code>TC-F-002</code></td>
+  <td><span class="badge warn-b">factual</span></td>
+  <td title="employees are entitled to 18 days of paid annual leave per calendar year.">How much advance notice is required to request annual leave?…</td>
+  <td>1.000</td>
+  <td>0.000</td>
+  <td>No</td>
+</tr>
+<tr>
+  <td><code>TC-F-004</code></td>
+  <td><span class="badge warn-b">factual</span></td>
+  <td title="employees receive 12 days of paid sick leave per year.">When is a medical certificate required for sick leave?…</td>
+  <td>1.000</td>
+  <td>0.000</td>
+  <td>No</td>
+</tr></table>
+  </div>
+
+</div>
+
+<div class="footer">
+  Generated by RAG Monitor POC · Intellectt AI QA Demo ·
+  Model: mock_rag_v1 · Cases: 5
+</div>
+</body>
+</html>
